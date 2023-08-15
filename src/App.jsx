@@ -4,6 +4,7 @@ import { useState } from "react";
 export const App = () => {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const open = url => window.open(url);
   console.log(photos);
   return (
     <div className="">
@@ -44,7 +45,7 @@ export const App = () => {
         <span>{loading ? <p>Cargando...</p> : <p>nada</p> }</span>
         <div>
           {photos.map((photo) => (
-            <article key={photo.id}> 
+            <article key={photo.id} onClick={()=> open(photo.links.html)}> 
               <img src={photo.urls.regular} alt={photo.alt_description} />
               <p>{[photo.desctiption, photo.alt_description].join(' ⚡ ')}</p>
             </article>
