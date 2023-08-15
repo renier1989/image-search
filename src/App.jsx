@@ -1,7 +1,8 @@
 import { Field, Form, Formik } from "formik";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const App = () => {
+  const input = useRef();
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrestPage] = useState(1);
@@ -11,12 +12,14 @@ export const App = () => {
   const open = (url) => window.open(url);
 
   const fetchPhotos = async (searchValues, page) => {
+    console.log('entre here');
     // console.log(searchValues,page);
-    console.log("searchig:", searching, "searchValues", searchValues);
+    // console.log("searchig:", searching, "searchValues", searchValues);
     if (searching && searchValues !== searching) {
-      console.log("aaaaaa");
       setPhotos([]);
     }
+    
+
     setLoading(true);
     const response = await fetch(
       `https://api.unsplash.com/search/photos?per_page=20&page=${page}&query=${searchValues}`,
@@ -36,6 +39,7 @@ export const App = () => {
   };
 
   useEffect(() => {
+    input.current.focus();
     if (currentPage > 1) {
       // console.log('algo');
       fetchPhotos(searching, currentPage);
@@ -63,6 +67,8 @@ export const App = () => {
         >
           <Form className="flex w-full">
             <Field
+            
+              innerRef={input}
               name="search"
               className="flex w-full justify-center items-center text-center outline-none cursor-pointer text-[40px]"
               autoComplete="off"
